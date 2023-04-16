@@ -15,10 +15,53 @@ type user_base struct {
 	Discriminator string `json:"discriminator"`
 }
 
+type report_payload struct {
+	ChannelID string `json:"channel_id"`
+	GuildID   string `json:"guild_id"`
+	MessageID string `json:"message_id"`
+	Reason    string `json:"reason"`
+}
+
 var base_url string = "https://discord.com/api/v9"
 
 func user(authentication string) {
 	req, err := http.NewRequest("GET", base_url+"/users/@me", nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	req.Header.Set("Authorization", authentication)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		defer resp.Body.Close()
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+
+			var response user_base
+
+			err = json.Unmarshal(body, &response)
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Println("[LOGGED IN] " + response.Username + "#" + response.Discriminator + " (" + response.ID + ")")
+			}
+		}
+
+	}
+}
+
+func send_report(member_id, authentication string) {
+	req, err := http.NewRequest("GET", base_url+"/report", nil)
 	if err != nil {
 		fmt.Println(err)
 		return
