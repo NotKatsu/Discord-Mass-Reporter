@@ -40,11 +40,15 @@ func user(user_token string) {
 
 func main() {
 	var user_id string
+	var authentication string
+
+	fmt.Printf("Authentication: ")
+	fmt.Scanln(&authentication)
 
 	fmt.Printf("Discord ID: ")
 	fmt.Scanln(&user_id)
 
 	if helpers.IntCheck(user_id) == true {
-		user()
+		user(authentication)
 	}
 }
