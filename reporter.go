@@ -10,14 +10,14 @@ import (
 
 var base_url string = "https://discord.com/api/v9"
 
-func user(user_token string) {
+func user(authentication string) {
 	req, err := http.NewRequest("GET", base_url+"/users/@me", nil)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	req.Header.Set("Authorization", "MTA1Mjk4MjcyMTU5ODczODUyMg.GuquGC.tqwUdU7Hyn4EFom2QH31_T2_ZAOu2m1m1q7QxI")
+	req.Header.Set("Authorization", authentication)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
