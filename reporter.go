@@ -108,7 +108,7 @@ func main() {
 	fmt.Printf("Authentication: ")
 	fmt.Scanln(&authentication)
 
-	fmt.Printf("Discord ID: ")
+	fmt.Printf("User ID: ")
 	fmt.Scanln(&userID)
 
 	fmt.Printf("Channel ID: ")
