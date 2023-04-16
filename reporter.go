@@ -10,9 +10,9 @@ import (
 )
 
 type user_base struct {
-	ID            int    `json:"id"`
+	ID            string `json:"id"`
 	Username      string `json:"username"`
-	Discriminator int    `json:"discriminator"`
+	Discriminator string `json:"discriminator"`
 }
 
 var base_url string = "https://discord.com/api/v9"
@@ -38,14 +38,16 @@ func user(authentication string) {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			fmt.Println(err)
-		}
+		} else {
 
-		var response user_base
+			var response user_base
 
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			fmt.Println("Error:", err)
-			return
+			err = json.Unmarshal(body, &response)
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Println("[LOGGED IN] " + response.Username + "#" + response.Discriminator + " (" + response.ID + ")")
+			}
 		}
 
 	}
