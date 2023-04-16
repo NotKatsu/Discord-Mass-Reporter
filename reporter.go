@@ -1,12 +1,19 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/NotKatsu/Discord-Mass-Reporter/helpers"
 )
+
+type user_base struct {
+	ID            int    `json:"id"`
+	Username      string `json:"username"`
+	Discriminator int    `json:"discriminator"`
+}
 
 var base_url string = "https://discord.com/api/v9"
 
@@ -26,7 +33,6 @@ func user(authentication string) {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-
 		defer resp.Body.Close()
 
 		body, err := ioutil.ReadAll(resp.Body)
@@ -34,7 +40,14 @@ func user(authentication string) {
 			fmt.Println(err)
 		}
 
-		fmt.Println(string(body))
+		var response user_base
+
+		err = json.Unmarshal(body, &response)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
 	}
 }
 
